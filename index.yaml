@@ -1,25 +1,25 @@
 apiVersion: v1
 entries:
   kafka:
-    - apiVersion: v2
-      appVersion: 4.1.0
-      created: "2025-10-28T09:42:17.08586152+08:00"
-      description: A Helm chart for Kubernetes
-      digest: 5f776f919a8241bec680515186f5f30b3fa5737099c77274781f794f81a87fd0
-      name: kafka
-      type: application
-      urls:
-        - https://uniTravel.github.io/charts/charts/kafka-0.1.0.tgz
-      version: 0.1.0
+  - apiVersion: v2
+    appVersion: 4.1.0
+    created: "2025-10-28T10:09:28.791774492+08:00"
+    description: A Helm chart for Kafka
+    digest: 8f079ce3b02631e5edf31a015fb723998a01f236720cff23be065e463765e0d4
+    name: kafka
+    type: application
+    urls:
+    - https://uniTravel.github.io/charts/charts/kafka-0.1.0.tgz
+    version: 0.1.0
   kafka-ui:
-    - apiVersion: v2
-      appVersion: 0.7.2
-      created: "2025-10-28T09:42:17.086157309+08:00"
-      description: A Helm chart for Kubernetes
-      digest: ecccd29c87707278d73597eaba5d1b9751c55712167f392cf4eb83fdf71a68d7
-      name: kafka-ui
-      type: application
-      urls:
-        - https://uniTravel.github.io/charts/charts/kafka-ui-0.1.0.tgz
-      version: 0.1.0
-generated: "2025-10-28T09:42:17.084946214+08:00"
+  - apiVersion: v2
+    appVersion: 0.7.2
+    created: "2025-10-28T10:09:28.792100091+08:00"
+    description: A Helm chart for Kafka-ui
+    digest: 8d2cc4d66fd16adca6e564473e44338f7c98baf962ff2baf27eafd45c907db4d
+    name: kafka-ui
+    type: application
+    urls:
+    - https://uniTravel.github.io/charts/charts/kafka-ui-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-10-28T10:09:28.791179419+08:00"
