@@ -3,12 +3,12 @@ entries:
   kafka:
   - apiVersion: v2
     appVersion: 4.1.0
-    created: "2025-10-28T08:32:53.039587098+08:00"
+    created: "2025-10-28T08:38:33.268458356+08:00"
     description: A Helm chart for Kubernetes
     digest: 5f776f919a8241bec680515186f5f30b3fa5737099c77274781f794f81a87fd0
     name: kafka
     type: application
     urls:
-    - https://uniTravel.github.io/charts/charts/charts/kafka-0.1.0.tgz
+    - https://uniTravel.github.io/charts/charts/kafka-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-28T08:32:53.038954263+08:00"
+generated: "2025-10-28T08:38:33.26785641+08:00"

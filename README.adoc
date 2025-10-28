@@ -1,0 +1,12 @@
+:icons: font
+:toc:
+:toc-title: 目录
+
+= Charts
+
+[TIP]
+====
+[.lead]
+托管在 GitHub 的轻量级 Helm Chart 库。
+====
+
