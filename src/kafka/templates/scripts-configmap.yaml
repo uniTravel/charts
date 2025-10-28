@@ -1,0 +1,77 @@
+{{- $fullname := include "names.fullname" . }}
+{{- $releaseNamespace := include "names.namespace" . }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ printf "%s-scripts" $fullname | trunc 63 | trimSuffix "-" }}
+  namespace: {{ $releaseNamespace  | quote }}
+data:
+  kafka-init.sh: |-
+    #!/bin/bash
+
+    set -o errexit
+    set -o nounset
+    set -o pipefail
+
+    kafka_conf_set() {
+        local file="${1:?missing file}"
+        local key="${2:?missing key}"
+        local value="${3:?missing value}"
+
+        if grep -q "^[#\\s]*$key\s*=.*" "$file"; then
+            local -r del=$'\001'
+            sed -i "s${del}^[#\\s]*${key}\s*=.*${del}${key}=${value}${del}g" "$file"
+        else
+            printf '\n%s=%s' "$key" "$value" >>"$file"
+        fi
+    }
+
+    replace_placeholder() {
+      local placeholder="${1:?missing placeholder value}"
+      local replacement="${2:?missing replacement value}"
+      local -r del=$'\001'
+      sed -i "s${del}$placeholder${del}$replacement${del}g" "$KAFKA_CONFIG_FILE"
+    }
+
+    echo "=== 配置Kafka ==="
+    export KAFKA_CONFIG_FILE=/opt/kafka/config/server.properties
+    POD_ID=$(echo "$POD_NAME" | rev | cut -d'-' -f 1 | rev)
+    kafka_conf_set "$KAFKA_CONFIG_FILE" "node.id" "$POD_ID"
+    replace_placeholder "advertised-address-placeholder" "$POD_NAME.{{ $fullname }}-headless.{{ $releaseNamespace }}.svc.cluster.local"
+    cat $KAFKA_CONFIG_FILE
+    echo -e "\n======"
+
+    if [ ! -f /var/lib/kafka/data/meta.properties ]; then
+      echo "初始化Kafka存储目录"
+      if [ -z "${CLUSTER_ID:-}" ]; then
+        CLUSTER_ID=$(/opt/kafka/bin/kafka-storage.sh random-uuid)
+        export CLUSTER_ID
+        echo "生成的集群ID: $CLUSTER_ID"
+      else
+        echo "配置的集群ID: $CLUSTER_ID"
+      fi
+      /opt/kafka/bin/kafka-storage.sh format \
+        -t $CLUSTER_ID \
+        -c /opt/kafka/config/kraft/server.properties \
+        --ignore-formatted
+      echo "Kafka存储目录初始化完成"
+    else
+      echo "Kafka存储目录已存在，跳过初始化"
+      cat /var/lib/kafka/data/meta.properties
+    fi
+
+  kafka-launch.sh: |-
+    #!/bin/bash
+
+    set -o errexit
+    set -o nounset
+    set -o pipefail
+
+    export KAFKA_NODE_ID="$(echo "$POD_NAME" | rev | cut -d'-' -f 1 | rev)"
+    port=$(( EXTERNAL_PORT + KAFKA_NODE_ID ))
+    listeners="${KAFKA_ADVERTISED_LISTENERS//advertised-address-placeholder/$POD_NAME.{{ $fullname }}-headless.{{ $releaseNamespace }}.svc.cluster.local}"
+    listeners="${listeners/host-ip/$HOST_IP}"
+    listeners="${listeners/external-port/$port}"
+    export KAFKA_ADVERTISED_LISTENERS=$listeners
+
+    /etc/kafka/docker/run

@@ -1,0 +1,23 @@
+{{- $startPort := .Values.startPort }}
+{{- $port := .Values.service.ports.external }}
+{{- range $i, $e := int .Values.replicaCount | until }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "%s-external-%d" (include "names.fullname" $) $i | trunc 63 | trimSuffix "-" }}
+  namespace: {{ include "names.namespace" $ | quote }}
+  labels:
+    app: kafka
+    component: broker
+    {{- include "kafka.labels" $ | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+    - name: tcp-external
+      port: {{ $port }}
+      targetPort: external 
+      nodePort: {{ add $startPort $i }}
+  selector:
+    statefulset.kubernetes.io/pod-name: {{ include "names.fullname" $ }}-{{ $i }}
+---
+{{- end }}
