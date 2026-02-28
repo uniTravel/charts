@@ -3,23 +3,23 @@ entries:
   kafka:
   - apiVersion: v2
     appVersion: 4.1.0
-    created: "2025-10-28T10:09:28.791774492+08:00"
+    created: "2026-02-28T10:03:35.617413864+08:00"
     description: A Helm chart for Kafka
-    digest: 8f079ce3b02631e5edf31a015fb723998a01f236720cff23be065e463765e0d4
+    digest: f3f683f1c8ba8d1afd80431dcd2f695d4851218d37ec67c17013b8bfd718a001
     name: kafka
     type: application
     urls:
-    - https://uniTravel.github.io/charts/charts/kafka-0.1.0.tgz
+    - https://uniTravel.github.io/charts/kafka/kafka-0.1.0.tgz
     version: 0.1.0
   kafka-ui:
   - apiVersion: v2
     appVersion: 0.7.2
-    created: "2025-10-28T10:09:28.792100091+08:00"
+    created: "2026-02-28T10:03:35.618157597+08:00"
     description: A Helm chart for Kafka-ui
-    digest: 8d2cc4d66fd16adca6e564473e44338f7c98baf962ff2baf27eafd45c907db4d
+    digest: 001915c520893600006bfdd329b94067c003f02bc6184ca556f902433332e64e
     name: kafka-ui
     type: application
     urls:
-    - https://uniTravel.github.io/charts/charts/kafka-ui-0.1.0.tgz
+    - https://uniTravel.github.io/charts/kafka/kafka-ui-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-28T10:09:28.791179419+08:00"
+generated: "2026-02-28T10:03:35.616745308+08:00"
